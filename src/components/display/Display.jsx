@@ -46,6 +46,8 @@ class Display extends React.Component {
             this.setState((prevState) => {
                 return { currentPhotoNum: prevState.currentPhotoNum + 1 }
             })
+        } else {
+            this.setState({currentPhotoNum:0})
         }
     }
 
@@ -53,13 +55,13 @@ class Display extends React.Component {
         let currentPhoto = this.state.photos[this.state.currentPhotoNum]
         return (
             <div className="Display">
+                <button onClick={this.clickHandler}>Next</button>
                 <div>
                     {this.state.photos.length && <img src={this.constructImageURL(currentPhoto)} alt={currentPhoto.title} />}
                 </div>
                 <div>
                     Latitude: {this.state.lat} Longitude: {this.state.lon}
                 </div>
-                <button onClick={this.clickHandler}>Next</button>
             </div>
         )
     }
