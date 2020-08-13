@@ -26,12 +26,10 @@ class Display extends React.Component {
     async getPictures() {
         const requestURL = `https://shrouded-mountain-15003.herokuapp.com/https://flickr.com/services/rest/?api_key=312e305e7062fdb7eb699961353a06bd&format=json&nojsoncallback=1&method=flickr.photos.search&safe_search=1&per_page=5&lat=${this.state.lat}&lon=${this.state.lon}&text=dog`
 
-        let response
-
         try {
-            response = await (await fetch(requestURL)).json()
-            console.log(response)
-            this.setState({ photos: response.photos.photo })
+            const response = await fetch(requestURL)
+            const data = await response.json()
+            this.setState({ photos: data.photos.photo })
         } catch (err) {
             console.log(err.message)
         }
