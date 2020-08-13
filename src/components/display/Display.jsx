@@ -15,8 +15,7 @@ class Display extends React.Component {
         const geo = navigator.geolocation
 
         geo.getCurrentPosition((loc) => {
-            this.setState({ lat: loc.coords.latitude, lon: loc.coords.longitude })
-            this.getPictures()
+            this.setState({ lat: loc.coords.latitude, lon: loc.coords.longitude }, this.getPictures)
         }, (err) => {
             console.log(err.message)
             this.getPictures()
@@ -25,7 +24,7 @@ class Display extends React.Component {
 
     async getPictures() {
         const requestURL = `https://shrouded-mountain-15003.herokuapp.com/https://flickr.com/services/rest/?api_key=312e305e7062fdb7eb699961353a06bd&format=json&nojsoncallback=1&method=flickr.photos.search&safe_search=1&per_page=5&lat=${this.state.lat}&lon=${this.state.lon}&text=dog`
-
+        
         try {
             const response = await fetch(requestURL)
             const data = await response.json()
@@ -33,6 +32,20 @@ class Display extends React.Component {
         } catch (err) {
             console.log(err.message)
         }
+    }
+    
+    getPicThen(){
+        const requestURL = `https://shrouded-mountain-15003.herokuapp.com/https://flickr.com/services/rest/?api_key=312e305e7062fdb7eb699961353a06bd&format=json&nojsoncallback=1&method=flickr.photos.search&safe_search=1&per_page=5&lat=${this.state.lat}&lon=${this.state.lon}&text=dog`
+
+        fetch(requestURL).then((response)=>{
+            return response.json()
+        }).then((data)=>{
+            this.setState({ photos: data.photos.photo })
+        }).catch((err)=>{
+            console.log(err.message)
+        })
+            
+        
     }
 
     constructImageURL(photoObj) {
